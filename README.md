@@ -1,2 +1,7 @@
-# About the dist folder
-After building the dist version of your project, the generated files are stored in this folder. You should keep it under version control.
+# online-reader
+an online-reader based on React  
+[See Demo](https://davejump.github.io/online-reader/)
+# usage
+`npm install` to install all dependcies  
+`bower install` to install bower_components  
+`npm run serve` to run server
