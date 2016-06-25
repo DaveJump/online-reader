@@ -1,7 +1,6 @@
 import {store} from './util';
 const $ = require('../../bower_components/jquery/dist/jquery.min');
-const Base64 = require('./base64');
-
+// const Base64 = require('./base64');
 
 $(window).scroll(() => {Controller.hideAll();});
 
@@ -147,6 +146,47 @@ let Controller = {
 
 		Controller.storage();
 		Controller.render(Controller.dataArr);
+
+	},
+
+	showAllChapter: (callback) => {
+
+		$.get('../data/chapter.json',(data) => {
+			if(data.result === 0){
+				let chapterArr = new Array;
+				for(let i = 0;i < Controller.dataArr[0].chapterCount;i ++){
+					chapterArr.push({
+						chapterId: parseInt(data.chapters[i].chapter_id) + 1,
+						chapterTitle: data.chapters[i].title
+					});
+				}
+				if(!Controller.dataArr[2]){
+					Controller.dataArr.push(chapterArr);
+				}else{
+					Controller.dataArr[2] = chapterArr;
+				}
+				Controller.storage();
+				callback && callback(Controller.dataArr);
+			}
+		},'json');
+
+	},
+
+	showFictionByChapterId: (id,callback) => {
+
+		$.get('../data/data' + id + '.json',(jsonData) => {
+			if(jsonData.result == 0){
+				if(!Controller.dataArr[3]){
+					Controller.dataArr.push(jsonData);
+				}else{
+					Controller.dataArr[3] = jsonData;
+				}
+				Controller.dataArr[0].chapterId = id;
+				Controller.storage();
+				callback && callback(Controller.dataArr);
+			}
+		},'json');
+
 	}
 
 }

@@ -7,19 +7,32 @@ import React from 'react';
 import Footer from './footer';
 import Pannel from './pannel';
 import Catalog from './catalog';
+import PopUp from './popUp';
 import Controller from './controller';
 
 let yeomanImage = require('../images/yeoman.png');
 
 class Main extends React.Component{
 
+	constructor(props){
+		super(props);
+		this.state = {
+			dataArr: props.dataArr,
+			popUp: [false,'']
+		}
+	}
+
 	componentDidMount(){
 		Controller.status = 1;
+		Controller.showFictionByChapterId(this.state.dataArr[0].chapterId,(dataArr) => {
+			this.setState({dataArr: dataArr});
+		});
+
 	}
 
   render(){
   	let dataArr = this.props.dataArr;
-		document.body.style.background = dataArr[1].bkColor
+		document.body.style.background = dataArr[1].bkColor;
 		
     return(
       <div>
@@ -33,26 +46,31 @@ class Main extends React.Component{
 				</header>
 
 				<section id="fiction_container" className="m-read-content" style={{fontSize: dataArr[1].fontSize}}>
-					<h4>Title</h4>
-					<p>江暖心命二婢收拾好了东西，就在经过白子涵身边时，却听一道清越的声音响在耳畔，“父亲明日回京，母亲命我过来邀请表妹明晚过府参加家宴。”</p>
-					<p>江暖心命二婢收拾好了东西，就在经过白子涵身边时，却听一道清越的声音响在耳畔，“父亲明日回京，母亲命我过来邀请表妹明晚过府参加家宴。”</p>
-					<p>江暖心命二婢收拾好了东西，就在经过白子涵身边时，却听一道清越的声音响在耳畔，“父亲明日回京，母亲命我过来邀请表妹明晚过府参加家宴。”</p>
-					<p>江暖心命二婢收拾好了东西，就在经过白子涵身边时，却听一道清越的声音响在耳畔，“父亲明日回京，母亲命我过来邀请表妹明晚过府参加家宴。”</p>
-					<p>江暖心命二婢收拾好了东西，就在经过白子涵身边时，却听一道清越的声音响在耳畔，“父亲明日回京，母亲命我过来邀请表妹明晚过府参加家宴。”</p>
+					
+					<h4>{this.state.dataArr[3] ? this.state.dataArr[3].t : ''}</h4>
+
+					{
+						this.state.dataArr[3] ? this.state.dataArr[3].p.map((item,index) => {
+							return (
+								<p key={index}>{item}</p>
+							)
+						}) : ''
+					}
 
 					<nav className="m-button-bar">
 						<ul className="u-tab">
-							<li id="prev_button">上一章</li>
-							<li id="next_button">下一章</li>
+							<li ref="prev_button" onClick={this.prevChapter.bind(this)}>上一章</li>
+							<li ref="next_button" onClick={this.nextChapter.bind(this)}>下一章</li>
 						</ul>
 					</nav>
 				</section>
 
+				<PopUp popUpMsg={this.state.popUp[1]} popUpShow={this.state.popUp[0]} popUpClick={this.popUpHide.bind(this)}/>
 				<Pannel dataArr={dataArr}/>
-				<Catalog />
+				<Catalog dataArr={dataArr} loadingLayer={this.refs.loading}/>
 				<Footer dataArr={dataArr} />
 
-				<section className="loading">
+				<section ref="loading" className="loading">
 					<div className="spinner">
 						<div className="rect1"></div>
 						<div className="rect2"></div>
@@ -63,6 +81,41 @@ class Main extends React.Component{
 				</section>
       </div>
     );
+  }
+
+  prevChapter(){
+  	if(this.props.dataArr[0].chapterId === 0){
+  		this.setState({popUp: [true,'已经是第一章啦！']});
+  		return false;
+  	}else{
+  		this.props.dataArr[0].chapterId --;
+  		window.scrollTo(0,0);
+  	}
+  	this.refs.loading.style.display = 'block';
+		Controller.showFictionByChapterId(this.props.dataArr[0].chapterId,(dataArr) => {
+			this.refs.loading.style.display = 'none';
+			Controller.render(dataArr);
+		});
+
+  }
+
+  nextChapter(){
+  	if(this.props.dataArr[0].chapterId === this.props.dataArr[0].chapterCount - 1){
+  		this.setState({popUp: [true,'已经是最后一章啦！']});
+  		return false;
+  	}else{
+  		this.props.dataArr[0].chapterId ++;
+  		window.scrollTo(0,0);
+  	}
+  	this.refs.loading.style.display = 'block';
+		Controller.showFictionByChapterId(this.props.dataArr[0].chapterId,(dataArr) => {
+			this.refs.loading.style.display = 'none';
+			Controller.render(dataArr);
+		});
+  }
+
+  popUpHide(){
+  	this.setState({popUp: [false,'123']});
   }
 
 }
