@@ -1,6 +1,6 @@
 import {store} from './util';
 const $ = require('../../bower_components/jquery/dist/jquery.min');
-// const Base64 = require('./base64');
+
 
 $(window).scroll(() => {Controller.hideAll();});
 

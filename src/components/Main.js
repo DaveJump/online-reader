@@ -10,7 +10,6 @@ import Catalog from './catalog';
 import PopUp from './popUp';
 import Controller from './controller';
 
-let yeomanImage = require('../images/yeoman.png');
 
 class Main extends React.Component{
 
@@ -24,10 +23,11 @@ class Main extends React.Component{
 
 	componentDidMount(){
 		Controller.status = 1;
+		this.refs.loading.style.display = 'block';
 		Controller.showFictionByChapterId(this.state.dataArr[0].chapterId,(dataArr) => {
+			this.refs.loading.style.display = 'none';
 			this.setState({dataArr: dataArr});
 		});
-
 	}
 
   render(){
