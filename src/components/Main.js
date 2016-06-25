@@ -24,7 +24,8 @@ class Main extends React.Component{
 	componentDidMount(){
 		Controller.status = 1;
 		this.refs.loading.style.display = 'block';
-		Controller.showFictionByChapterId(this.state.dataArr[0].chapterId,(dataArr) => {
+		let id = this.state.dataArr[0].chapterId || this.props.dataArr[0].chapterId;
+		Controller.showFictionByChapterId(id,(dataArr) => {
 			this.refs.loading.style.display = 'none';
 			this.setState({dataArr: dataArr});
 		});
