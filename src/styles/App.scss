@@ -296,10 +296,11 @@ $navFontColor: #fff;
   @at-root{
 
     .m-button-bar{
-      width: 70%;
+      width: 75%;
       max-width: 600px;
       padding: 5px;
       margin: 0 auto;
+      text-align: center;
 
       @at-root{
 
@@ -307,22 +308,22 @@ $navFontColor: #fff;
           height: 34px;
           margin: 10px auto;
           line-height: 34px;
-          border-radius: 8px;
-          border: 1px solid #858382;
           font-size: 12px;
-          background: #111 !important;
+          background: none !important;
           opacity: 0.9;
 
           li{
             display: inline-block;
-            width: 49%;
-            border-right: 1px solid #858382;
+            width: 46%;
+            margin-right: 10px;
             text-align: center;
-            color: $navFontColor;
+            border-radius: 8px;
+            border: 1px solid #666;
+            color: #666;
             font-size: 12px !important;
 
-            &:nth-child(2){
-              border: none;
+            &:last-child{
+              margin: 0;
             }
           }
         }
