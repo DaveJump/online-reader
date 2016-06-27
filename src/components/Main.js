@@ -41,7 +41,7 @@ class Main extends React.Component{
 					<div className="artical-action-mid" onClick={Controller.toggleNavBar}></div>
 				</div>
 
-				<header className="top-nav">
+				<header className="top-nav" style={{background: dataArr[1].day ? '#222' : 'rgba(0,0,0,.9)'}}>
 					<div className="icon-back"></div>
 					<div className="nav-title">返回书架</div>
 				</header>
@@ -61,6 +61,7 @@ class Main extends React.Component{
 					<nav className="m-button-bar">
 						<ul className="u-tab">
 							<li ref="prev_button" onClick={this.prevChapter.bind(this)}>上一章</li>
+							<span>第 {this.state.dataArr[0].chapterId + 1 || this.props.dataArr[0].chapterId + 1} 章 / 共 {dataArr[0].chapterCount} 章</span>
 							<li ref="next_button" onClick={this.nextChapter.bind(this)}>下一章</li>
 						</ul>
 					</nav>

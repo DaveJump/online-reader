@@ -3,6 +3,7 @@ html,body{
 }
 html{
   height: 100%;
+  font-size: 62.5%;
   overflow-x: hidden;
 }
 body{
@@ -11,7 +12,7 @@ body{
 }
 
 /* variables */
-$navBkColor: rgba(0,0,0,.9);
+$navBkColor: rgba(17,17,17,.95);
 $navFontColor: #fff;
 
 /* mixins */
@@ -23,6 +24,7 @@ $navFontColor: #fff;
   left: $l;
 }
 
+.nav-pannel,.container,.bottom-nav,.top-nav{min-width:300px;}
 
 .container{
   padding: 5px 0;
@@ -160,13 +162,21 @@ $navFontColor: #fff;
   @at-root{
 
     .child-mod{
-      padding: 5px;
-      margin: 15px;
+      padding: 5px 15px;
+      margin: 15px 1rem;
       color: $navFontColor;
+
+      @media screen and(max-width: 350px) {
+        margin: 15px 0.3rem;
+      }
 
       span{
         display: inline-block;
-        padding: 0 10px 0 20px;
+        padding: 0 20px;
+
+         @media screen and(max-width: 350px) {
+          padding: 0 12px;
+         }
       }
       
       @at-root{
@@ -174,10 +184,12 @@ $navFontColor: #fff;
         .font-size-button{
           background: none;
           display: inline-block;
-          border: 1px solid #8c8c8c;
-          border-radius: 6px;
           padding: 5px 28px;
           margin-right: 6px;
+
+          @media screen and(max-width: 350px) {
+            padding: 5px 25px;
+          }
 
           &:last-child{
             margin: 0;
@@ -185,7 +197,7 @@ $navFontColor: #fff;
         }
 
         .font-size-button.current{
-          border: 1px solid #FF6B00;
+          border-bottom: 2px solid #FF6B00;
           color: #FF6B00;
         }
 
@@ -196,7 +208,11 @@ $navFontColor: #fff;
           display: inline-block;
           position: relative;
           vertical-align: middle;
-          margin-right: 10px;
+          margin-right: 0.8rem;
+
+          @media screen and(max-width: 350px) {
+             margin-right: 0.5rem;
+          }
 
           &:last-child{
             margin: 0;
@@ -205,11 +221,11 @@ $navFontColor: #fff;
         }
 
         .bk-container-current{
-          @include scretch(absolute,-2px,inherit,inherit,-2px);
+          @include scretch(absolute,-3px,inherit,inherit,-3px);
           width: 32px;
           height: 32px;
           border-radius: 50%;
-          border: 1px solid #FF6B00;
+          border: 2px solid #FF6B00;
         }
 
         .bk_container.white{
@@ -257,7 +273,7 @@ $navFontColor: #fff;
 
   li{
     padding: 10px 5px;
-    border-bottom: 1px solid #252525;
+    border-bottom: 1px solid #282828;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
@@ -296,16 +312,21 @@ $navFontColor: #fff;
   @at-root{
 
     .m-button-bar{
-      width: 75%;
+      width: 100%;
       max-width: 600px;
       padding: 5px;
       margin: 0 auto;
       text-align: center;
 
+      span{
+        font-size: 14px;
+        padding: 0 15px;
+      }
+
       @at-root{
 
         .u-tab{
-          height: 34px;
+          min-height: 34px;
           margin: 10px auto;
           line-height: 34px;
           font-size: 12px;
@@ -314,17 +335,12 @@ $navFontColor: #fff;
 
           li{
             display: inline-block;
-            width: 46%;
-            margin-right: 10px;
+            width: 22%;
             text-align: center;
-            border-radius: 8px;
+            border-radius: 5px;
             border: 1px solid #666;
             color: #666;
             font-size: 12px !important;
-
-            &:last-child{
-              margin: 0;
-            }
           }
         }
 
