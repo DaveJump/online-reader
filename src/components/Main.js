@@ -30,6 +30,8 @@ class Main extends React.Component{
 		Controller.showFictionByChapterId(id,(dataArr) => {
 			this.refs.loading.style.display = 'none';
 			this.setState({dataArr: dataArr});
+
+			console.log(dataArr)
 		});
 	}
 
@@ -39,7 +41,7 @@ class Main extends React.Component{
 
     let fontColor = '';
 
-    if(dataArr[0].currentBkId === 4 || dataArr[0].currentBkId === 5){
+    if(dataArr[0].currentBkId === 4 || dataArr[0].currentBkId === 5 || !dataArr[1].day){
       fontColor = '#d6d6d6';
     }
 
@@ -61,7 +63,7 @@ class Main extends React.Component{
 					{
 						this.state.dataArr[2] ? this.state.dataArr[2].p.map((item,index) => {
 							return (
-								<p key={index}>{item}</p>
+								<p key={index} style={{lineHeight: this.state.dataArr[1].lineHeight}}>{item}</p>
 							)
 						}) : ''
 					}

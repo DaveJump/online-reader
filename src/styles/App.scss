@@ -37,11 +37,11 @@ $navFontColor: #272636;
 .nav-panel,.container,.bottom-nav,.top-nav{min-width:300px;}
 
 .nav-panel,.bottom-nav{
-  box-shadow: 0 0 4px rgba(0,0,0,.2);
+  box-shadow: 0 -1px 3px rgba(0,0,0,.2);
 }
 
 .top-nav{
-  box-shadow: 0 0 4px rgba(0,0,0,.2);
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
 }
 
 .container{
@@ -57,6 +57,7 @@ $navFontColor: #272636;
 
 .icon-back,.icon-catalog,.icon-pageStyle,.mod-day,.mod-night{
   background: url(../images/sprite_base.png) no-repeat;
+  background-size: 412.5px 160.5px;
 }
 
 /* 顶部导航 */
@@ -75,7 +76,6 @@ $navFontColor: #272636;
       width: 22px;
       height: 22px;
       background-position: -302.5px -138.5px;
-      background-size: 412.5px 160.5px;
     }
 
     .nav-title{
@@ -116,12 +116,10 @@ $navFontColor: #272636;
           height: 22px;
           margin: -2px auto 4px auto;
           background-position: -331.5px -138.5px;
-          background-size: 412.5px 160.5px;
         }
 
         .icon-catalog.active {
           background-position: -361px -138.5px;
-          background-size:412.5px 160.5px;
         }
 
         .text-catalog.active{
@@ -131,12 +129,10 @@ $navFontColor: #272636;
         .icon-pageStyle{
           @extend .icon-catalog;
           background-position: -243.5px -138.5px;
-          background-size: 412.5px 160.5px;
         }
 
         .icon-pageStyle.active{
           background-position: -273px -138.5px;
-          background-size: 412.5px 160.5px;
         }
 
         .text-pageStyle.active{
@@ -160,7 +156,6 @@ $navFontColor: #272636;
           .icon-mod-day{
             @extend .icon-catalog;
             background-position: -390.5px -138.5px;
-            background-size:412.5px 160.5px;
           }
         }
 
@@ -169,7 +164,6 @@ $navFontColor: #272636;
           .icon-mod-night{
             @extend .icon-catalog;
             background-position: -214px -138.5px;
-            background-size:412.5px 160.5px;
           }
         }
 
@@ -182,7 +176,7 @@ $navFontColor: #272636;
 /* 样式控制面板 */
 .nav-panel {
   display: none;
-  @include stretch(fixed,inherit,inherit,58px,inherit);
+  @include stretch(fixed,inherit,inherit,59px,inherit);
   width: 100%;
   z-index: 3000;
   color: $navFontColor;
@@ -193,11 +187,11 @@ $navFontColor: #272636;
     .child-mod{
       background: #ffffff;
       border: 1px solid #d8d8d8;
-      padding: 15px;
+      padding: 12px;
       margin: 15px 1rem;
       color: $navFontColor;
 
-      @media screen and(max-width: 370px) {
+      @media screen and(max-width: 360px) {
         margin: 15px 0.3rem;
       }
 
@@ -205,31 +199,30 @@ $navFontColor: #272636;
         display: inline-block;
         padding: 0 30px 0 10px;
         float: left;
-        line-height: 2.2;
+        line-height: 2.3;
 
-         @media screen and(max-width: 370px) {
+         @media screen and(max-width: 360px) {
           padding: 0 12px;
          }
       }
 
       @at-root{
+        
+        .fontSize-wrapper{
+          box-sizing: border-box;
+          float: left;
+          width: 24%;
+          padding: 0 20px;
+          display: inline-block;
+          cursor: pointer;
+        }
 
         .font-size-button{
-          background: none;
-          display: inline-block;
-          padding: 5px 20px;
-          float: left;
-          width: 9.5%;
-          text-align: center;
-          cursor: pointer;
-
-          @media screen and(max-width: 370px) {
-            padding: 5px 25px;
-          }
-
-          &:last-child{
-            margin: 0;
-          }
+          width: 32px;
+          height: 32px;
+          background: url(../images/sprite_font.png) no-repeat;
+          background-size: 353px 220.5px;
+          margin: 0 auto !important;
 
           &:nth-of-type(1){
             font-size: 22px;
@@ -244,9 +237,71 @@ $navFontColor: #272636;
           }
         }
 
+        #large-font{
+          background-position: -232px -61px;
+        }
+
+        #medium-font{
+          background-position: -233px -136px;
+        }
+
+        #small-font{
+          background-position: -232px -197px;
+        }
+
+        #large-font.current{
+          background-position: -321px -61px;
+        }
+
+        #medium-font.current{
+          background-position: -322px -136px;
+        }
+
+        #small-font.current{
+          background-position: -320px -197px;
+        }
+
         .font-size-button.current{
           color: #FF6B00;
         }
+
+
+        .lh-wrapper{
+          @extend .fontSize-wrapper;
+        }
+
+        .lh-button{
+          background: url(../images/sprite_lh.png) no-repeat;
+          background-size: 319.5px 249.5px;
+          width: 32px;
+          height: 32px;
+          margin: 0 auto !important;
+        }
+
+        #large-lh{
+          background-position: -222.5px -86px;
+        }
+
+        #medium-lh{
+          background-position: -222.5px -153px;
+        }
+        
+        #small-lh{
+          background-position: -222.5px -217.5px;
+        }
+
+        #large-lh.current{
+          background-position: -287.5px -86px;
+        }
+
+        #medium-lh.current{
+          background-position: -287.5px -153px;
+        }
+
+        #small-lh.current{
+          background-position: -287.5px -217.5px;
+        }
+
 
         .bk-wrapper{
           width: 13%;
@@ -258,12 +313,12 @@ $navFontColor: #272636;
           height: 30px;
           border-radius: 50%;
           border: 1px solid #d2d2d2;
-          display: inline-block;
           position: relative;
           vertical-align: middle;
           margin-right: 0.8rem;
+          margin: 0 auto !important;
 
-          @media screen and(max-width: 370px) {
+          @media screen and(max-width: 360px) {
              margin-right: 0.5rem;
           }
 
@@ -359,7 +414,7 @@ $navFontColor: #272636;
     text-indent: 2em;
     margin: 0.5em 0;
     letter-spacing: 0px;
-    line-height: 24px;
+    line-height: 2;
   }
 
   @at-root{

@@ -4,22 +4,11 @@ import Controller from './controller';
 class Panel extends React.Component{
 	render(){
 		let circle = ['white','yellow','brown','green','mazarine','black'];
-		let fontCircle = [
-			{
-				size: 'large-font',
-				font: '大'
-			},
-			{
-				size: 'medium-font',
-				font: '中'
-			},
-			{
-				size: 'small-font',
-				font: '小'
-			}
-		];
+		let font = ['large-font','medium-font','small-font'];
+		let lh = ['large-lh','medium-lh','small-lh'];
 		let className = '';
 		let fontClassName = '';
+		let lhClassName = '';
 		let dataArr = this.props.dataArr;
 
 		return (
@@ -27,10 +16,12 @@ class Panel extends React.Component{
 				<div className="child-mod clearfix">
 					<span>字号</span>
 					{
-						fontCircle.map(function(item,index){
+						font.map(function(item,index){
 							fontClassName = (index === dataArr[0].currentFontId) ? ('font-size-button' + ' ' + 'current') : 'font-size-button';
 							return (
-								<div key={index} id={item.size} className={fontClassName} onClick={Controller.changeFontSize.bind(this,index)}>{item.font}</div>
+								<div className="fontSize-wrapper" key={index + 1} onClick={Controller.changeFontSize.bind(this,index)}>
+									<div key={index} id={item} className={fontClassName}></div>
+								</div>
 							)
 						}.bind(this))
 					}
@@ -46,6 +37,19 @@ class Panel extends React.Component{
                     <div key={index} className="bk-container-current" style={{display: index === dataArr[0].currentBkId ? 'block' : 'none'}}></div>
                   </div>
                 </div>
+							)
+						}.bind(this))
+					}
+				</div>
+				<div className="child-mod clearfix">
+					<span>行距</span>
+					{
+						lh.map(function(item,index){
+							lhClassName = (index === dataArr[0].currentlhId) ? ('lh-button' + ' ' + 'current') : 'lh-button';
+							return (
+								<div className="lh-wrapper" key={index + 1} onClick={Controller.changeLH.bind(this,index)}>
+									<div key={index} id={item} className={lhClassName}></div>
+								</div>
 							)
 						}.bind(this))
 					}

@@ -10,14 +10,16 @@ let Controller = {
 
 	dataArr: [
 		{
-			currentBkId: 1,
+			currentBkId: 2,
 			currentFontId: 1,
+			currentlhId: 1,
 			chapterId: 0,
 			chapterCount: 4
 		},
 		{
 			bkColor: '#e9dfc7',
 			fontSize: '14px',
+			lineHeight: '2',
 			day: true
 		}
 	],
@@ -81,6 +83,8 @@ let Controller = {
 			$('.bottom-nav').hide();
 			$('.icon-pageStyle').removeClass('active');
 			$('.text-pageStyle').removeClass('active');
+      $('.icon-catalog').removeClass('active');
+      $('.text-catalog').removeClass('active');
 		}
 
 	},
@@ -92,6 +96,8 @@ let Controller = {
 			$('.bottom-nav').toggle();
 			$('.icon-pageStyle').removeClass('active');
 			$('.text-pageStyle').removeClass('active');
+			$('.icon-catalog').removeClass('active');
+      $('.text-catalog').removeClass('active');
 
 			if(!$('.nav-panel').is(':hidden') || !$('.chapter_catalog_panel').is(':hidden')){
 				$('.nav-panel').hide();
@@ -123,7 +129,7 @@ let Controller = {
 				Controller.dataArr[1].bkColor = '#3F443E';
 				break;
 			default:
-				Controller.dataArr[1].bkColor = '#FFF1D6';
+				Controller.dataArr[1].bkColor = '#ECD6AF';
 		}
 
 		Controller.dataArr[0].currentBkId = index;
@@ -149,6 +155,28 @@ let Controller = {
 		}
 
 		Controller.dataArr[0].currentFontId = index;
+		Controller.storage();
+		Controller.render(Controller.dataArr);
+
+	},
+
+	changeLH: (index) => {
+
+		switch(index){
+			case 0:
+				Controller.dataArr[1].lineHeight = '1.2';
+				break;
+			case 1:
+				Controller.dataArr[1].lineHeight = '2';
+				break;
+			case 2:
+				Controller.dataArr[1].lineHeight = '3';
+				break;
+			default:
+				Controller.dataArr[1].lineHeight = '2';
+		}
+
+		Controller.dataArr[0].currentlhId = index;
 		Controller.storage();
 		Controller.render(Controller.dataArr);
 
@@ -186,7 +214,6 @@ let Controller = {
 					}else{
 						Controller.dataArr[3] = chapterArr;
 					}
-					Controller.storage();
 					callback && callback(Controller.dataArr);
 				}
 			},'json');
