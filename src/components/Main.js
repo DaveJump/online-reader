@@ -5,7 +5,7 @@ require('styles/App.scss');
 import React from 'react';
 
 import Footer from './footer';
-import Pannel from './pannel';
+import Panel from './panel';
 import Catalog from './catalog';
 import PopUp from './popUp';
 import Controller from './controller';
@@ -24,7 +24,9 @@ class Main extends React.Component{
 	componentDidMount(){
 		Controller.status = 1;
 		this.refs.loading.style.display = 'block';
-		let id = this.state.dataArr[0].chapterId || this.props.dataArr[0].chapterId;
+
+		let id = this.props.dataArr[0].chapterId;
+
 		Controller.showFictionByChapterId(id,(dataArr) => {
 			this.refs.loading.style.display = 'none';
 			this.setState({dataArr: dataArr});
@@ -32,26 +34,32 @@ class Main extends React.Component{
 	}
 
   render(){
-  	let dataArr = this.props.dataArr;
+  	let dataArr = this.state.dataArr || this.props.dataArr;
 		document.body.style.background = dataArr[1].bkColor;
-		
+
+    let fontColor = '';
+
+    if(dataArr[0].currentBkId === 4 || dataArr[0].currentBkId === 5){
+      fontColor = '#d6d6d6';
+    }
+
     return(
       <div>
-				<div className="m-artical-action">
-					<div className="artical-action-mid" onClick={Controller.toggleNavBar}></div>
+				<div className="m-article-action">
+					<div className="article-action-mid" onClick={Controller.toggleNavBar}></div>
 				</div>
 
-				<header className="top-nav" style={{background: dataArr[1].day ? '#222' : 'rgba(0,0,0,.9)'}}>
+				<header className="top-nav">
 					<div className="icon-back"></div>
 					<div className="nav-title">返回书架</div>
 				</header>
 
-				<section id="fiction_container" className="m-read-content" style={{fontSize: dataArr[1].fontSize}}>
-					
-					<h4>{this.state.dataArr[3] ? this.state.dataArr[3].t : ''}</h4>
+				<section id="fiction_container" className="m-read-content" style={{fontSize: dataArr[1].fontSize,color: fontColor}}>
+
+					<h4>{this.state.dataArr[2] ? this.state.dataArr[2].t : ''}</h4>
 
 					{
-						this.state.dataArr[3] ? this.state.dataArr[3].p.map((item,index) => {
+						this.state.dataArr[2] ? this.state.dataArr[2].p.map((item,index) => {
 							return (
 								<p key={index}>{item}</p>
 							)
@@ -60,15 +68,15 @@ class Main extends React.Component{
 
 					<nav className="m-button-bar">
 						<ul className="u-tab">
-							<li ref="prev_button" onClick={this.prevChapter.bind(this)}>上一章</li>
+							<li ref="prev_button" style={{color: fontColor,borderColor: fontColor}} onClick={this.prevChapter.bind(this)}>上一章</li>
 							<span>第 {this.state.dataArr[0].chapterId + 1 || this.props.dataArr[0].chapterId + 1} 章 / 共 {dataArr[0].chapterCount} 章</span>
-							<li ref="next_button" onClick={this.nextChapter.bind(this)}>下一章</li>
+							<li ref="next_button" style={{color: fontColor,borderColor: fontColor}} onClick={this.nextChapter.bind(this)}>下一章</li>
 						</ul>
 					</nav>
 				</section>
 
 				<PopUp popUpMsg={this.state.popUp[1]} popUpShow={this.state.popUp[0]} popUpClick={this.popUpHide.bind(this)}/>
-				<Pannel dataArr={dataArr}/>
+				<Panel dataArr={dataArr}/>
 				<Catalog dataArr={dataArr} loadingLayer={this.refs.loading}/>
 				<Footer dataArr={dataArr} />
 

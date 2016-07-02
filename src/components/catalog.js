@@ -2,26 +2,33 @@ import React from 'react';
 import Controller from './controller';
 
 class Catalog extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      dataArr: props
+    }
+  }
 
-	constructor(props){
-		super(props);
-		this.state = {dataArr: props.dataArr}
-	}
-
-	componentDidMount(){
-		Controller.showAllChapter((dataArr) => {
-			this.setState({dataArr: dataArr});
-		});
-	}
+  componentDidMount(){
+    this.setState({
+      dataArr: this.props.dataArr
+    });
+  }
 
 	render(){
-
-		if (this.state.dataArr[2]){
+		if (this.state.dataArr[3] instanceof Array){
 			return(
-				<div ref="chapter_catalog" className="chapter_catalog_pannel">
+				<div ref="chapter_catalog" className="chapter_catalog_panel">
+            <div className="catalog-spinner">
+              <div className="rect1"></div>
+              <div className="rect2"></div>
+              <div className="rect3"></div>
+              <div className="rect4"></div>
+              <div className="rect5"></div>
+            </div>
 					<ul>
 						{
-							this.state.dataArr[2].map((item,index) => {
+              this.state.dataArr[3].map((item,index) => {
 								return (
 									<li key={index} data-chapter_id={index} onClick={this.selectChapter.bind(this,index)}>{item.chapterTitle}</li>
 								)
@@ -33,7 +40,14 @@ class Catalog extends React.Component{
 		}
 		else {
 			return(
-				<div id="chapter_catalog" className="chapter_catalog_pannel">
+				<div id="chapter_catalog" className="chapter_catalog_panel">
+					<div className="catalog-spinner">
+            <div className="rect1"></div>
+            <div className="rect2"></div>
+            <div className="rect3"></div>
+            <div className="rect4"></div>
+            <div className="rect5"></div>
+          </div>
 					<ul></ul>
 				</div>
 			);

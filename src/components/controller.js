@@ -26,11 +26,14 @@ let Controller = {
 		store('readerData',Controller.dataArr);
 	},
 
-	togglePannel: () => {
+	togglePanel: () => {
 
 		if(Controller.status){
-			$('.chapter_catalog_pannel').hide();
-			$('.nav-pannel').toggle();
+			$('.chapter_catalog_panel').hide();
+			$('.nav-panel').toggle();
+
+      $('.icon-catalog').removeClass('active');
+      $('.text-catalog').removeClass('active');
 
 			$('.pageStyle').find('.icon-pageStyle').toggleClass('active');
 			$('.pageStyle').find('.text-pageStyle').toggleClass('active');
@@ -41,12 +44,30 @@ let Controller = {
 	toggleCatalog: () => {
 
 		if(Controller.status){
-			if($('.icon-pageStyle').hasClass('active') || $('.text-pageStyle').hasClass('active')){
-				$('.icon-pageStyle').removeClass('active');
-				$('.text-pageStyle').removeClass('active');
-			}
-			$('.nav-pannel').hide();
-			$('.chapter_catalog_pannel').toggle();
+
+      $('.icon-pageStyle').removeClass('active');
+      $('.text-pageStyle').removeClass('active');
+
+      $('.catalog').find('.icon-catalog').toggleClass('active');
+      $('.catalog').find('.text-catalog').toggleClass('active');
+
+			$('.nav-panel').hide();
+			$('.chapter_catalog_panel').toggle();
+
+			let flag = true;
+
+      if(!$('.chapter_catalog_panel').find('li').length && flag){
+      	$('.catalog-spinner').show();
+        Controller.showAllChapter((dataArr) => {
+          Controller.render(dataArr);
+          $('.catalog-spinner').hide();
+          flag = true;
+        });
+        flag = false;
+      }else{
+        return false;
+      }
+
 		}
 
 	},
@@ -54,8 +75,8 @@ let Controller = {
 	hideAll: () => {
 
 		if(Controller.status){
-			$('.nav-pannel').hide();
-			$('.chapter_catalog_pannel').hide();
+			$('.nav-panel').hide();
+			$('.chapter_catalog_panel').hide();
 			$('.top-nav').hide();
 			$('.bottom-nav').hide();
 			$('.icon-pageStyle').removeClass('active');
@@ -72,37 +93,37 @@ let Controller = {
 			$('.icon-pageStyle').removeClass('active');
 			$('.text-pageStyle').removeClass('active');
 
-			if(!$('.nav-pannel').is(':hidden') || !$('.chapter_catalog_pannel').is(':hidden')){
-				$('.nav-pannel').hide();
-				$('.chapter_catalog_pannel').hide();
+			if(!$('.nav-panel').is(':hidden') || !$('.chapter_catalog_panel').is(':hidden')){
+				$('.nav-panel').hide();
+				$('.chapter_catalog_panel').hide();
 			}
 		}
 
 	},
 
 	changeBk: (index) => {
-	
+
 		switch(index){
 			case 0:
 				Controller.dataArr[1].bkColor = '#fff';
 				break;
 			case 1:
-				Controller.dataArr[1].bkColor = '#e9dfc7';
+				Controller.dataArr[1].bkColor = '#FFF1D6';
 				break;
 			case 2:
-				Controller.dataArr[1].bkColor = '#A4A4A4';
+				Controller.dataArr[1].bkColor = '#ECD6AF';
 				break;
 			case 3:
-				Controller.dataArr[1].bkColor = '#CDEFCE';
+				Controller.dataArr[1].bkColor = '#D4ECD2';
 				break;
 			case 4:
-				Controller.dataArr[1].bkColor = '#283548';
+				Controller.dataArr[1].bkColor = '#19354B';
 				break;
 			case 5:
-				Controller.dataArr[1].bkColor = '#0F1410';
+				Controller.dataArr[1].bkColor = '#3F443E';
 				break;
 			default:
-				Controller.dataArr[1].bkColor = '#e9dfc7';
+				Controller.dataArr[1].bkColor = '#FFF1D6';
 		}
 
 		Controller.dataArr[0].currentBkId = index;
@@ -115,16 +136,16 @@ let Controller = {
 
 		switch(index){
 			case 0:
-				Controller.dataArr[1].fontSize = '20px';
+				Controller.dataArr[1].fontSize = '22px';
 				break;
 			case 1:
-				Controller.dataArr[1].fontSize = '16px';
+				Controller.dataArr[1].fontSize = '18px';
 				break;
 			case 2:
 				Controller.dataArr[1].fontSize = '12px';
 				break;
 			default:
-				Controller.dataArr[1].fontSize = '16px';
+				Controller.dataArr[1].fontSize = '18px';
 		}
 
 		Controller.dataArr[0].currentFontId = index;
@@ -138,7 +159,6 @@ let Controller = {
 		Controller.dataArr[1].day = !Controller.dataArr[1].day;
 		if(!Controller.dataArr[1].day){
 			Controller.dataArr[1].bkColor = '#0F1410';
-			Controller.dataArr[0].currentBkId = 5;
 		}else{
 			Controller.dataArr[1].bkColor = '#fff';
 			Controller.dataArr[0].currentBkId = 0;
@@ -151,41 +171,45 @@ let Controller = {
 
 	showAllChapter: (callback) => {
 
-		$.get('../data/chapter.json',(data) => {
-			if(data.result === 0){
-				let chapterArr = new Array;
-				for(let i = 0;i < Controller.dataArr[0].chapterCount;i ++){
-					chapterArr.push({
-						chapterId: parseInt(data.chapters[i].chapter_id) + 1,
-						chapterTitle: data.chapters[i].title
-					});
+		if(Controller.status){
+			$.get('../data/chapter.json',(data) => {
+				if(data.result === 0){
+					let chapterArr = new Array;
+					for(let i = 0;i < Controller.dataArr[0].chapterCount;i ++){
+						chapterArr.push({
+							chapterId: parseInt(data.chapters[i].chapter_id) + 1,
+							chapterTitle: data.chapters[i].title
+						});
+					}
+					if(!Controller.dataArr[3]){
+						Controller.dataArr.push(chapterArr);
+					}else{
+						Controller.dataArr[3] = chapterArr;
+					}
+					Controller.storage();
+					callback && callback(Controller.dataArr);
 				}
-				if(!Controller.dataArr[2]){
-					Controller.dataArr.push(chapterArr);
-				}else{
-					Controller.dataArr[2] = chapterArr;
-				}
-				Controller.storage();
-				callback && callback(Controller.dataArr);
-			}
-		},'json');
+			},'json');
+		}
 
 	},
 
 	showFictionByChapterId: (id,callback) => {
 
-		$.get('../data/data' + id + '.json',(jsonData) => {
-			if(jsonData.result == 0){
-				if(!Controller.dataArr[3]){
-					Controller.dataArr.push(jsonData);
-				}else{
-					Controller.dataArr[3] = jsonData;
+		if(Controller.status){
+			$.get('../data/data' + id + '.json',(jsonData) => {
+				if(jsonData.result == 0){
+					if(!Controller.dataArr[2]){
+						Controller.dataArr.push(jsonData);
+					}else{
+						Controller.dataArr[2] = jsonData;
+					}
+					Controller.dataArr[0].chapterId = id;
+					Controller.storage();
+					callback && callback(Controller.dataArr);
 				}
-				Controller.dataArr[0].chapterId = id;
-				Controller.storage();
-				callback && callback(Controller.dataArr);
-			}
-		},'json');
+			},'json');
+		}
 
 	}
 

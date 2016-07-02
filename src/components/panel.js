@@ -1,7 +1,7 @@
 import React from 'react';
 import Controller from './controller';
 
-class Pannel extends React.Component{
+class Panel extends React.Component{
 	render(){
 		let circle = ['white','yellow','brown','green','mazarine','black'];
 		let fontCircle = [
@@ -23,8 +23,8 @@ class Pannel extends React.Component{
 		let dataArr = this.props.dataArr;
 
 		return (
-			<section className="nav-pannel">
-				<div className="child-mod">
+			<section className="nav-panel">
+				<div className="child-mod clearfix">
 					<span>字号</span>
 					{
 						fontCircle.map(function(item,index){
@@ -35,15 +35,17 @@ class Pannel extends React.Component{
 						}.bind(this))
 					}
 				</div>
-				<div className="child-mod">
+				<div className="child-mod clearfix">
 					<span>背景</span>
 					{
 						circle.map(function(item,index){
 							className = 'bk_container' + ' ' + item;
 							return (
-								<div key={index} className={className} onClick={this.changeBk.bind(this,index)} style={{opacity: !dataArr[1].day ? 0.3 : 1}}>
-									<div key={index} className="bk-container-current" style={{display: index === dataArr[0].currentBkId ? 'block' : 'none'}}></div>
-								</div>
+                <div key={index+1} className="bk-wrapper">
+                  <div key={index} className={className} onClick={this.changeBk.bind(this,index)} style={{opacity: !dataArr[1].day ? 0.3 : 1}}>
+                    <div key={index} className="bk-container-current" style={{display: index === dataArr[0].currentBkId ? 'block' : 'none'}}></div>
+                  </div>
+                </div>
 							)
 						}.bind(this))
 					}
@@ -61,4 +63,4 @@ class Pannel extends React.Component{
 	}
 }
 
-export default Pannel;
+export default Panel;
