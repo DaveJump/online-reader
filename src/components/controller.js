@@ -1,10 +1,6 @@
 import {store} from './util';
 const $ = require('../../bower_components/jquery/dist/jquery.min');
 
-const img_base = require('../images/sprite_base.png');
-const img_font = require('../images/sprite_font.png');
-const img_lh = require('../images/sprite_lh.png');
-
 
 $(window).scroll(() => {Controller.hideAll();});
 

@@ -30,8 +30,6 @@ class Main extends React.Component{
 		Controller.showFictionByChapterId(id,(dataArr) => {
 			this.refs.loading.style.display = 'none';
 			this.setState({dataArr: dataArr});
-
-			
 		});
 	}
 
