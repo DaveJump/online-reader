@@ -56,14 +56,14 @@ class Main extends React.Component{
 
 				<section id="fiction_container" className="m-read-content" style={{fontSize: dataArr[1].fontSize,color: fontColor}}>
 
-					<h4>{this.state.dataArr[2] ? this.state.dataArr[2].t : ''}</h4>
+					<h4>{(this.state.dataArr[2] != undefined) ? (this.state.dataArr[2].t) : ''}</h4>
 
 					{
-						this.state.dataArr[2] ? this.state.dataArr[2].p.map((item,index) => {
+						(this.state.dataArr[2] != undefined) ? (this.state.dataArr[2].p.map((item,index) => {
 							return (
 								<p key={index} style={{lineHeight: this.state.dataArr[1].lineHeight}}>{item}</p>
 							)
-						}) : ''
+						})) : ''
 					}
 
 					<nav className="m-button-bar">
