@@ -19,7 +19,7 @@ class Panel extends React.Component{
 						font.map(function(item,index){
 							fontClassName = (index === dataArr[0].currentFontId) ? ('font-size-button' + ' ' + 'current') : 'font-size-button';
 							return (
-								<div className="fontSize-wrapper" key={index + 1} style={{background: fontClassName.indexOf('current') > 0 ? '#f0f0f0' : '#ffffff'}} onClick={Controller.changeFontSize.bind(this,index)}>
+								<div className="fontSize-wrapper" key={index + 1} style={{background: fontClassName.indexOf('current') > 0 ? '#f0f0f0' : '#ffffff'}} onTouchEnd={Controller.changeFontSize.bind(this,index)}>
 									<div key={index} id={item} className={fontClassName}></div>
 								</div>
 							)
@@ -33,7 +33,7 @@ class Panel extends React.Component{
 							className = 'bk_container' + ' ' + item;
 							return (
                 <div key={index+1} className="bk-wrapper">
-                  <div key={index} className={className} onClick={this.changeBk.bind(this,index)} style={{opacity: !dataArr[1].day ? 0.3 : 1}}>
+                  <div key={index} className={className} onTouchEnd={this.changeBk.bind(this,index)} style={{opacity: !dataArr[1].day ? 0.3 : 1}}>
                     <div key={index} className="bk-container-current" style={{display: index === dataArr[0].currentBkId ? 'block' : 'none'}}></div>
                   </div>
                 </div>
@@ -47,7 +47,7 @@ class Panel extends React.Component{
 						lh.map(function(item,index){
 							lhClassName = (index === dataArr[0].currentlhId) ? ('lh-button' + ' ' + 'current') : 'lh-button';
 							return (
-								<div className="lh-wrapper" key={index + 1} style={{background: lhClassName.indexOf('current') > 0 ? '#f0f0f0' : '#ffffff'}} onClick={Controller.changeLH.bind(this,index)}>
+								<div className="lh-wrapper" key={index + 1} style={{background: lhClassName.indexOf('current') > 0 ? '#f0f0f0' : '#ffffff'}} onTouchEnd={Controller.changeLH.bind(this,index)}>
 									<div key={index} id={item} className={lhClassName}></div>
 								</div>
 							)

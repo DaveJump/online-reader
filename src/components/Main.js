@@ -3,6 +3,7 @@ require('styles/reset.scss');
 require('styles/App.scss');
 
 import React from 'react';
+import Pubsub from 'react-pubsub';
 
 import Footer from './footer';
 import Panel from './panel';
@@ -16,7 +17,8 @@ class Main extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			dataArr: props.dataArr,
+			fictionContent: null,
+			chapters: null,
 			popUp: [false,'']
 		}
 	}
@@ -24,17 +26,25 @@ class Main extends React.Component{
 	componentDidMount(){
 		Controller.status = 1;
 		this.refs.loading.style.display = 'block';
-
 		let id = this.props.dataArr[0].chapterId;
 
-		Controller.showFictionByChapterId(id,(dataArr) => {
+		Controller.showFictionByChapterId(id,(content) => {
+			this.setState({fictionContent: content});
 			this.refs.loading.style.display = 'none';
-			this.setState({dataArr: dataArr});
 		});
 	}
 
+	getFictionContent(content,callback){
+		this.setState({fictionContent: content});
+		callback && callback();
+	}
+
+	getChapters(dataChapters){
+		this.setState({chapters: dataChapters});
+	}
+
   render(){
-  	let dataArr = this.state.dataArr || this.props.dataArr;
+  	let dataArr = this.props.dataArr;
 		document.body.style.background = dataArr[1].bkColor;
 
     let fontColor = '';
@@ -56,29 +66,29 @@ class Main extends React.Component{
 
 				<section id="fiction_container" className="m-read-content" style={{fontSize: dataArr[1].fontSize,color: fontColor}}>
 
-					<h4>{(this.state.dataArr[2] != undefined) ? (this.state.dataArr[2].t) : ''}</h4>
+					<h4>{(this.state.fictionContent) ? (this.state.fictionContent.t) : ''}</h4>
 
 					{
-						(this.state.dataArr[2] != undefined) ? (this.state.dataArr[2].p.map((item,index) => {
+						(this.state.fictionContent) ? (this.state.fictionContent.p.map((item,index) => {
 							return (
-								<p key={index} style={{lineHeight: this.state.dataArr[1].lineHeight}}>{item}</p>
+								<p key={index} style={{lineHeight: dataArr[1].lineHeight}}>{item}</p>
 							)
 						})) : ''
 					}
 
-					<nav className="m-button-bar">
+					<nav className="m-button-bar" style={{display: this.state.fictionContent ? 'block' : 'none'}}>
 						<ul className="u-tab">
-							<li ref="prev_button" style={{color: fontColor,borderColor: fontColor}} onClick={this.prevChapter.bind(this)}>上一章</li>
-							<span>第 {this.state.dataArr[0].chapterId + 1 || this.props.dataArr[0].chapterId + 1} 章 / 共 {dataArr[0].chapterCount} 章</span>
-							<li ref="next_button" style={{color: fontColor,borderColor: fontColor}} onClick={this.nextChapter.bind(this)}>下一章</li>
+							<li ref="prev_button" style={{color: fontColor,borderColor: fontColor}} onTouchEnd={this.prevChapter.bind(this)}>上一章</li>
+							<span>第 {dataArr[0].chapterId + 1 || dataArr[0].chapterId + 1} 章 / 共 {dataArr[0].chapterCount} 章</span>
+							<li ref="next_button" style={{color: fontColor,borderColor: fontColor}} onTouchEnd={this.nextChapter.bind(this)}>下一章</li>
 						</ul>
 					</nav>
 				</section>
 
 				<PopUp popUpMsg={this.state.popUp[1]} popUpShow={this.state.popUp[0]} popUpClick={this.popUpHide.bind(this)}/>
 				<Panel dataArr={dataArr}/>
-				<Catalog dataArr={dataArr} loadingLayer={this.refs.loading}/>
-				<Footer dataArr={dataArr} />
+				<Catalog dataArr={dataArr} loadingLayer={this.refs.loading} chapters={this.state.chapters} getFictionContent={this.getFictionContent.bind(this)}/>
+				<Footer dataArr={dataArr} getChapters={this.getChapters.bind(this)} />
 
 				<section ref="loading" className="loading">
 					<div className="spinner">
@@ -99,14 +109,13 @@ class Main extends React.Component{
   		return false;
   	}else{
   		this.props.dataArr[0].chapterId --;
-  		window.scrollTo(0,0);
   	}
   	this.refs.loading.style.display = 'block';
-		Controller.showFictionByChapterId(this.props.dataArr[0].chapterId,(dataArr) => {
+		Controller.showFictionByChapterId(this.props.dataArr[0].chapterId,(content) => {
 			this.refs.loading.style.display = 'none';
-			Controller.render(dataArr);
+			this.setState({fictionContent: content});
+			window.scrollTo(0,0);
 		});
-
   }
 
   nextChapter(){
@@ -115,17 +124,17 @@ class Main extends React.Component{
   		return false;
   	}else{
   		this.props.dataArr[0].chapterId ++;
-  		window.scrollTo(0,0);
   	}
   	this.refs.loading.style.display = 'block';
-		Controller.showFictionByChapterId(this.props.dataArr[0].chapterId,(dataArr) => {
+		Controller.showFictionByChapterId(this.props.dataArr[0].chapterId,(content) => {
 			this.refs.loading.style.display = 'none';
-			Controller.render(dataArr);
+			this.setState({fictionContent: content});
+			window.scrollTo(0,0);
 		});
   }
 
   popUpHide(){
-  	this.setState({popUp: [false,'123']});
+  	this.setState({popUp: [false,'']});
   }
 
 }

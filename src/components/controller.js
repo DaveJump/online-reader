@@ -2,7 +2,13 @@ import {store} from './util';
 const $ = require('../../bower_components/jquery/dist/jquery.min');
 
 
-$(window).scroll(() => {Controller.hideAll();});
+$(window).scroll(() => {
+	setTimeout(() => {
+		Controller.hideAll()
+	},200);
+});
+
+let flag = true;
 
 let Controller = {
 
@@ -28,6 +34,16 @@ let Controller = {
 		store('readerData',Controller.dataArr);
 	},
 
+	exclude: () => {
+		if(Controller.dataArr[2]){
+			let newArr = Controller.dataArr.filter((item,index) => {
+				return index != 2;
+			});
+
+			return newArr;
+		}
+	},
+
 	togglePanel: () => {
 
 		if(Controller.status){
@@ -43,7 +59,7 @@ let Controller = {
 
 	},
 
-	toggleCatalog: () => {
+	toggleCatalog: (callback) => {
 
 		if(Controller.status){
 
@@ -56,19 +72,15 @@ let Controller = {
 			$('.nav-panel').hide();
 			$('.chapter_catalog_panel').toggle();
 
-			let flag = true;
-
       if(!$('.chapter_catalog_panel').find('li').length && flag){
+      	flag = false;
       	$('.catalog-spinner').show();
-        Controller.showAllChapter((dataArr) => {
-        	console.log(dataArr)
-          Controller.render(dataArr);
+
+        Controller.showAllChapter((chapters) => {
+          callback && callback(chapters);
           $('.catalog-spinner').hide();
           flag = true;
         });
-        flag = false;
-      }else{
-        return false;
       }
 
 		}
@@ -210,12 +222,7 @@ let Controller = {
 							chapterTitle: data.chapters[i].title
 						});
 					}
-					if(!Controller.dataArr[3]){
-						Controller.dataArr.push(chapterArr);
-					}else{
-						Controller.dataArr[3] = chapterArr;
-					}
-					callback && callback(Controller.dataArr);
+					callback && callback(chapterArr);
 				}
 			},'json');
 		}
@@ -224,21 +231,12 @@ let Controller = {
 
 	showFictionByChapterId: (id,callback) => {
 
-		if(Controller.dataArr[3]){
-			Controller.dataArr[3] = {};
-		}
-
 		if(Controller.status){
 			$.get('../data/data' + id + '.json',(jsonData) => {
 				if(jsonData.result == 0){
-					if(!Controller.dataArr[2]){
-						Controller.dataArr.push(jsonData);
-					}else{
-						Controller.dataArr[2] = jsonData;
-					}
 					Controller.dataArr[0].chapterId = id;
+					callback && callback(jsonData);
 					Controller.storage();
-					callback && callback(Controller.dataArr);
 				}
 			},'json');
 		}

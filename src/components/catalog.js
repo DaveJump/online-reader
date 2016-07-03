@@ -2,21 +2,11 @@ import React from 'react';
 import Controller from './controller';
 
 class Catalog extends React.Component{
-  constructor(props){
-    super(props);
-    this.state = {
-      dataArr: props
-    }
-  }
-
-  componentDidMount(){
-    this.setState({
-      dataArr: this.props.dataArr
-    });
-  }
 
 	render(){
-		if (this.state.dataArr[3] instanceof Array){
+		let chapters = this.props.chapters;
+
+		if (chapters){
 			return(
 				<div ref="chapter_catalog" className="chapter_catalog_panel">
             <div className="catalog-spinner">
@@ -28,9 +18,9 @@ class Catalog extends React.Component{
             </div>
 					<ul>
 						{
-              this.state.dataArr[3].map((item,index) => {
+              chapters.map((item,index) => {
 								return (
-									<li key={index} data-chapter_id={index} onClick={this.selectChapter.bind(this,index)}>{item.chapterTitle}</li>
+									<li key={index} onTouchEnd={this.selectChapter.bind(this,index)}>{item.chapterTitle}</li>
 								)
 							})
 						}
@@ -56,16 +46,15 @@ class Catalog extends React.Component{
 	}
 
 	selectChapter(index){
-
 		this.props.loadingLayer.style.display = 'block';
 
-		Controller.showFictionByChapterId(index,(dataArr) => {
-			this.props.loadingLayer.style.display = 'none';
-			Controller.hideAll();
-			window.scrollTo(0,0);
-			Controller.render(dataArr);
+		Controller.showFictionByChapterId(index,(content) => {
+			this.props.getFictionContent(content,() => {
+				this.props.loadingLayer.style.display = 'none';
+				Controller.hideAll();
+				window.scrollTo(0,0);
+			});
 		});
-
 	}
 
 }
