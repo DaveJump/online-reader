@@ -1,6 +1,10 @@
 import {store} from './util';
 const $ = require('../../bower_components/jquery/dist/jquery.min');
 
+const img_base = require('../images/sprite_base.png');
+const img_font = require('../images/sprite_font.png');
+const img_lh = require('../images/sprite_lh.png');
+
 
 $(window).scroll(() => {Controller.hideAll();});
 
@@ -17,7 +21,7 @@ let Controller = {
 			chapterCount: 4
 		},
 		{
-			bkColor: '#e9dfc7',
+			bkColor: '#ECD6AF',
 			fontSize: '14px',
 			lineHeight: '2',
 			day: true
@@ -61,6 +65,7 @@ let Controller = {
       if(!$('.chapter_catalog_panel').find('li').length && flag){
       	$('.catalog-spinner').show();
         Controller.showAllChapter((dataArr) => {
+        	console.log(dataArr)
           Controller.render(dataArr);
           $('.catalog-spinner').hide();
           flag = true;
@@ -222,6 +227,10 @@ let Controller = {
 	},
 
 	showFictionByChapterId: (id,callback) => {
+
+		if(Controller.dataArr[3]){
+			Controller.dataArr[3] = {};
+		}
 
 		if(Controller.status){
 			$.get('../data/data' + id + '.json',(jsonData) => {

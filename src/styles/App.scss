@@ -187,9 +187,13 @@ $navFontColor: #272636;
     .child-mod{
       background: #ffffff;
       border: 1px solid #d8d8d8;
-      padding: 12px;
+      padding: 0 12px;
       margin: 15px 1rem;
       color: $navFontColor;
+
+      &:nth-of-type(2){
+        padding: 12px;
+      }
 
       @media screen and(max-width: 360px) {
         margin: 15px 0.3rem;
@@ -212,7 +216,7 @@ $navFontColor: #272636;
           box-sizing: border-box;
           float: left;
           width: 24%;
-          padding: 0 20px;
+          padding: 12px 20px;
           display: inline-block;
           cursor: pointer;
         }

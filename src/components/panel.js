@@ -14,12 +14,12 @@ class Panel extends React.Component{
 		return (
 			<section className="nav-panel">
 				<div className="child-mod clearfix">
-					<span>字号</span>
+					<span style={{lineHeight: 4}}>字号</span>
 					{
 						font.map(function(item,index){
 							fontClassName = (index === dataArr[0].currentFontId) ? ('font-size-button' + ' ' + 'current') : 'font-size-button';
 							return (
-								<div className="fontSize-wrapper" key={index + 1} onClick={Controller.changeFontSize.bind(this,index)}>
+								<div className="fontSize-wrapper" key={index + 1} style={{background: fontClassName.indexOf('current') > 0 ? '#f0f0f0' : '#ffffff'}} onClick={Controller.changeFontSize.bind(this,index)}>
 									<div key={index} id={item} className={fontClassName}></div>
 								</div>
 							)
@@ -42,12 +42,12 @@ class Panel extends React.Component{
 					}
 				</div>
 				<div className="child-mod clearfix">
-					<span>行距</span>
+					<span style={{lineHeight: 4}}>行距</span>
 					{
 						lh.map(function(item,index){
 							lhClassName = (index === dataArr[0].currentlhId) ? ('lh-button' + ' ' + 'current') : 'lh-button';
 							return (
-								<div className="lh-wrapper" key={index + 1} onClick={Controller.changeLH.bind(this,index)}>
+								<div className="lh-wrapper" key={index + 1} style={{background: lhClassName.indexOf('current') > 0 ? '#f0f0f0' : '#ffffff'}} onClick={Controller.changeLH.bind(this,index)}>
 									<div key={index} id={item} className={lhClassName}></div>
 								</div>
 							)

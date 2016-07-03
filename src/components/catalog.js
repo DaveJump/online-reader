@@ -56,13 +56,16 @@ class Catalog extends React.Component{
 	}
 
 	selectChapter(index){
+
 		this.props.loadingLayer.style.display = 'block';
+
 		Controller.showFictionByChapterId(index,(dataArr) => {
 			this.props.loadingLayer.style.display = 'none';
-			this.refs.chapter_catalog.style.display = 'none';
+			Controller.hideAll();
+			window.scrollTo(0,0);
 			Controller.render(dataArr);
 		});
-		window.scrollTo(0,0);
+
 	}
 
 }

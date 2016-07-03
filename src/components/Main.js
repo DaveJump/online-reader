@@ -31,7 +31,7 @@ class Main extends React.Component{
 			this.refs.loading.style.display = 'none';
 			this.setState({dataArr: dataArr});
 
-			console.log(dataArr)
+			
 		});
 	}
 
